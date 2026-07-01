@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pregúntale a Alondra</title>
+
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial;
+            background:#283d3b;
+            text-align:center;
+        }
+
+        .contenedor{
+            width:80%;
+            margin:auto;
+            margin-top:40px;
+            background:white;
+            padding:30px;
+            border-radius:20px;
+            box-shadow:0 5px 15px #404be7;
+        }
+
+        h1{
+            color:#283d3b;
+            font-size:45px;
+        }
+
+        .opciones{
+            display:flex;
+            justify-content:center;
+            gap:30px;
+        }
+
+        .card{
+            background:#eaf4ff;
+            padding:40px;
+            border-radius:30px;
+            width:200px;
+        }
+
+        .card img{
+            width:175px;
+            height:125px;
+            border-radius:15px;
+        }
+
+        button{
+            background:#197278;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:20px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#354f52;
+        }
+
+        input{
+            margin-top:25px;
+            width:70%;
+            padding:18px;
+            border-radius:20px;
+            border:1px solid #181111;
+        }
+
+        #respuesta{
+            margin-top:25px;
+            background:#eaf4ff;
+            padding:20px;
+            border-radius:15px;
+            text-align: justify
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="contenedor">
+
+
+        <h1>🤖 Pregúntale a Alondra</h1>
+
+
+        <div class="opciones">
+
+
+            <div class="card">
+
+                <img src="/static/imagenes/clima.jpg">
+
+                <h2>🌦️ Clima</h2>
+
+                <button onclick="seleccionar('clima')">
+                    Clima
+                </button>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <img src="/static/imagenes/futbol.jpg">
+
+                <h2>⚽ Fútbol</h2>
+
+                <button onclick="seleccionar('futbol')">
+                    Fútbol
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <input 
+            id="pregunta"
+            placeholder="Selecciona una opción..."
+        >
+
+
+        <br><br>
+
+
+        <button onclick="preguntar()">
+            Preguntar
+        </button>
+
+
+
+        <div id="respuesta">
+
+            Respuesta aquí...
+
+        </div>
+
+
+    </div>
+
+
+
+<script>
+
+
+    let categoria = "";
+
+
+    function seleccionar(tipo){
+
+
+        categoria = tipo;
+
+
+        if(tipo == "clima"){
+
+            document.getElementById("pregunta").placeholder =
+            "Escribe una ciudad";
+
+        }
+
+
+        else{
+
+            document.getElementById("pregunta").placeholder =
+            "Escribe un equipo";
+
+        }
+
+
+    }
+
+
+
+
+
+    async function preguntar(){
+
+
+        let texto = document.getElementById("pregunta").value;
+
+
+
+        if(categoria == "clima"){
+
+
+            let respuesta = await fetch(`/clima?ciudad=${texto}`);
+
+            let datos = await respuesta.json();
+
+
+            document.getElementById("respuesta").innerHTML =
+            datos.respuesta;
+
+
+        }
+
+
+
+
+        else if(categoria == "futbol"){
+
+
+            let respuesta = await fetch(`/futbol?consulta=${texto}`);
+
+            let datos = await respuesta.json();
+
+
+            document.getElementById("respuesta").innerHTML =
+            datos.respuesta;
+
+
+        }
+
+
+
+
+        else{
+
+
+            document.getElementById("respuesta").innerHTML =
+            "⚠️ Selecciona una opción primero";
+
+
+        }
+
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
