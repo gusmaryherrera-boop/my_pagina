@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pregúntale a Alondra</title>
+    <title>Pregúntale a Londy</title>
 
     <style>
 
@@ -91,7 +91,7 @@
     <div class="contenedor">
 
 
-        <h1>🤖 Pregúntale a Alondra</h1>
+        <h1>🤖 Pregúntale a Londy </h1>
 
 
         <div class="opciones">
@@ -106,9 +106,22 @@
                 <button onclick="seleccionar('clima')">
                     Clima
                 </button>
+                <p> Coloca el nombre de la localidad de la que quieres saber el clima actual</p>
 
             </div>
 
+            <div class="card">
+
+                <img src="/static/imagenes/mate.jpg">
+
+                <h2>📝matematica</h2>
+
+                <button onclick="seleccionar('matematica')">
+                    matematica
+                </button>
+                <p> Coloca la operacion matematica simple que deseas resolver u operacion algebraica simple</p>
+
+            </div>
 
 
             <div class="card">
@@ -120,6 +133,7 @@
                 <button onclick="seleccionar('futbol')">
                     Fútbol
                 </button>
+                <p> Coloca el nombre de un club o equipo del que quieres saber informacion</p>
 
             </div>
 
@@ -170,6 +184,13 @@
 
             document.getElementById("pregunta").placeholder =
             "Escribe una ciudad";
+
+        }
+
+        if(tipo == "matematica"){
+
+            document.getElementById("pregunta").placeholder =
+            "Escribe una operacion";
 
         }
 
@@ -224,6 +245,18 @@
             datos.respuesta;
 
 
+        }
+
+        else if(categoria == "matematica"){
+
+
+            let respuesta = await fetch(`/matematica?consulta=${encodeURIComponent(texto)}`);
+
+            let datos = await respuesta.json();
+
+
+            document.getElementById("respuesta").innerHTML =
+            datos.respuesta;  
         }
 
 
