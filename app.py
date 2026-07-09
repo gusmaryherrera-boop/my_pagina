@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 @app.route("/")
 def inicio():
-    return render_template("pagina.html")
+    return render_template("index.html")
 
 api_key = "bfb67620cb5407df38125216583bdf35"
 
