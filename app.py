@@ -2,6 +2,7 @@ from deep_translator import GoogleTranslator
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+from urllib.parse import quote
 import requests
 
 app = Flask(__name__)
@@ -119,6 +120,29 @@ def obtener_futbol():
         {descripcion}
         """
     })
+
+@app.route("/matematica")
+def obtener_matematica():
+
+    consulta = request.args.get("consulta")
+
+    expresion = quote(consulta)
+
+    url = f"http://api.mathjs.org/v4/?expr={expresion}"
+
+    respuesta = requests.get(url)
+
+    if respuesta.status_code != 200:
+        return jsonify({
+            "respuesta": "❌ Error al resolver la operación."
+        })
+
+    resultado = respuesta.text
+
+    return jsonify({
+        "respuesta": f"🧮 Resultado: <b>{resultado}</b>"
+    })
+
 
 
 if __name__ == "__main__":
